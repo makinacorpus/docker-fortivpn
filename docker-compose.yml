@@ -1,0 +1,21 @@
+---
+version: "3.6"
+services:
+  vpn:
+    image: "makinacorpus/docker-fortivpn"
+    # image: corpusops/ubuntu:18.04
+    volumes:
+      - /:/mnt/host
+      - ~/:/mnt/host_home
+    privileged: true
+    environment:
+      HOST: "${HOST:-__ssh_tunnel__}"
+      PORT: "${PORT:-45668}"
+      USERNAME: "$USERNAME"
+      PASSWORD: "$PASSWORD"
+      USE_SSH_TUNNEL: "${USE_SSH_TUNNEL-}"
+      INSECURE_SSL: "${INSECURE_SSL-}"
+    devices:
+    - "/dev/ppp:/dev/ppp"
+    ports:
+    - "127.0.0.1:8443:8443"
